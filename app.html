@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agenda Math - app</title>
+<style>
+  :root { --accent:#1c6b8f; --ink:#101f29; --paper:#f2f8fb; --soft:#dcecf4; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Georgia, "Times New Roman", serif; background:var(--paper); color:var(--ink); line-height:1.55; }
+  main { max-width:660px; margin:0 auto; }
+  .boundary { background:#fdeaea; border-left:6px solid #b03030; color:#5c1c1c; border-radius:6px; padding:1rem 1.1rem; }
+  .boundary strong { display:block; margin-bottom:.3rem; }
+  body { padding:2rem 1.2rem; }
+  h1 { font-size:1.8rem; color:var(--accent); }
+  .boundary { margin:1rem 0 1.4rem; }
+  .panel { background:var(--soft); border-left:5px solid var(--accent); border-radius:6px; padding:1rem 1.1rem; margin-bottom:1.1rem; }
+  h2 { font-size:1.1rem; margin-bottom:.6rem; }
+  p.note { font-size:.9rem; margin-bottom:.4rem; }
+  label { display:block; font-size:.9rem; margin:.45rem 0 .1rem; }
+  input, select { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #b7d3e2; border-radius:6px; background:#fff; color:var(--ink); }
+  .row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.6rem; }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #b7d3e2; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; }
+  .out.err { border-color:#b03030; color:#8a1f1f; }
+  footer { margin-top:1.8rem; font-size:.85rem; color:#4f7287; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Agenda Math</h1>
+  <div class="boundary">
+    <strong>Boundary: arithmetic only</strong>
+    This page adds the times, durations and gaps you type, in whole minutes on a 24-hour clock. It does not say how long an item should take, whether a plan is realistic, or what anyone has agreed to.
+  </div>
+
+  <div class="panel">
+    <h2>The end truth</h2>
+    <p class="note">A start time plus a number of minutes. Past midnight is marked with the day.</p>
+    <div class="row2">
+      <div><label for="e-s">Start time</label><input id="e-s" type="text" value="09:30"></div>
+      <div><label for="e-m">Minutes</label><input id="e-m" type="number" step="1" value="90"></div>
+    </div>
+    <div class="out" id="e-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The run truth</h2>
+    <p class="note">Start and end of every item in a running order. Durations go in a list in minutes, separated by commas.</p>
+    <div class="row">
+      <div><label for="r-s">Start time</label><input id="r-s" type="text" value="09:00"></div>
+      <div><label for="r-l">Durations</label><input id="r-l" type="text" value="30, 30, 30"></div>
+      <div><label for="r-g">Gap between items</label><input id="r-g" type="number" step="1" value="5"></div>
+    </div>
+    <div class="out" id="r-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The fit truth</h2>
+    <p class="note">A running order against the window it has to fit in. Gaps sit between items, not after the last one.</p>
+    <div class="row2">
+      <div><label for="f-s">Window starts</label><input id="f-s" type="text" value="09:00"></div>
+      <div><label for="f-e">Window ends</label><input id="f-e" type="text" value="12:00"></div>
+    </div>
+    <div class="row2">
+      <div><label for="f-l">Durations</label><input id="f-l" type="text" value="45, 60, 40"></div>
+      <div><label for="f-g">Gap between items</label><input id="f-g" type="number" step="1" value="5"></div>
+    </div>
+    <div class="out" id="f-out"></div>
+  </div>
+
+  <footer>Agenda Math is exact arithmetic over the numbers you enter. <a href="index.html">Why it exists</a>.</footer>
+</main>
+<script src="engine.js"></script>
+<script>
+  const num = (id) => Number(document.getElementById(id).value);
+  function show(id, fn) {
+    const out = document.getElementById(id);
+    try { out.textContent = fn(); out.classList.remove("err"); }
+    catch (e) { out.textContent = e.message; out.classList.add("err"); }
+  }
+  function recalc() {
+    const v = (id) => document.getElementById(id).value;
+    show("e-out", () => endTruth(v("e-s"), num("e-m")));
+    show("r-out", () => runTruth(v("r-s"), v("r-l"), num("r-g")));
+    show("f-out", () => fitTruth(v("f-s"), v("f-e"), v("f-l"), num("f-g")));
+  }
+  document.querySelectorAll("input").forEach((el) => {
+    el.addEventListener("input", recalc);
+    el.addEventListener("change", recalc);
+  });
+  recalc();
+</script>
+</body>
+</html>
