@@ -1,0 +1,321 @@
+[
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:30",
+   90
+  ],
+  "expected": "09:30 plus 90 minutes: 11:00."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:30",
+   0
+  ],
+  "expected": "09:30 plus 0 minutes: 09:30."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:30",
+   1
+  ],
+  "expected": "09:30 plus 1 minute: 09:31."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "23:30",
+   90
+  ],
+  "expected": "23:30 plus 90 minutes: 01:00 (+1 day)."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "23:59",
+   1
+  ],
+  "expected": "23:59 plus 1 minute: 00:00 (+1 day)."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "00:00",
+   1440
+  ],
+  "expected": "00:00 plus 1440 minutes: 00:00 (+1 day)."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "12:00",
+   2881
+  ],
+  "expected": "12:00 plus 2881 minutes: 12:01 (+2 days)."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:30",
+   10000
+  ],
+  "expected": "09:30 plus 10000 minutes: 08:10 (+7 days)."
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "9:30",
+   90
+  ],
+  "expected": "ERR:start time must be a time written like 09:30, from 00:00 to 23:59"
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "24:00",
+   90
+  ],
+  "expected": "ERR:start time must be a time written like 09:30, from 00:00 to 23:59"
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:60",
+   90
+  ],
+  "expected": "ERR:start time must be a time written like 09:30, from 00:00 to 23:59"
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:30",
+   -5
+  ],
+  "expected": "ERR:minutes must be a whole number from 0 to 10000"
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:30",
+   10001
+  ],
+  "expected": "ERR:minutes must be a whole number from 0 to 10000"
+ },
+ {
+  "fn": "endTruth",
+  "args": [
+   "09:30",
+   1.5
+  ],
+  "expected": "ERR:minutes must be a whole number from 0 to 10000"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "30, 30, 30",
+   5
+  ],
+  "expected": "Start 09:00, gap 5 minutes: 09:00 to 09:30; 09:35 to 10:05; 10:10 to 10:40."
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "45",
+   0
+  ],
+  "expected": "Start 09:00, gap 0 minutes: 09:00 to 09:45."
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "30, 30",
+   1
+  ],
+  "expected": "Start 09:00, gap 1 minute: 09:00 to 09:30; 09:31 to 10:01."
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "23:00",
+   "30, 45, 20",
+   10
+  ],
+  "expected": "Start 23:00, gap 10 minutes: 23:00 to 23:30; 23:40 to 00:25 (+1 day); 00:35 (+1 day) to 00:55 (+1 day)."
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "1, 1",
+   0
+  ],
+  "expected": "Start 09:00, gap 0 minutes: 09:00 to 09:01; 09:01 to 09:02."
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "",
+   5
+  ],
+  "expected": "ERR:each duration must be a whole number of minutes from 1 to 1440"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "30, x",
+   5
+  ],
+  "expected": "ERR:each duration must be a whole number of minutes from 1 to 1440"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "30, 0",
+   5
+  ],
+  "expected": "ERR:each duration must be a whole number of minutes from 1 to 1440"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "1441",
+   5
+  ],
+  "expected": "ERR:each duration must be a whole number of minutes from 1 to 1440"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "1,2,3,4,5,6,7,8,9,10,11,12,13",
+   5
+  ],
+  "expected": "ERR:enter 1 to 12 durations in minutes separated by commas"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "30",
+   121
+  ],
+  "expected": "ERR:gap must be a whole number of minutes from 0 to 120"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "09:00",
+   "30",
+   -1
+  ],
+  "expected": "ERR:gap must be a whole number of minutes from 0 to 120"
+ },
+ {
+  "fn": "runTruth",
+  "args": [
+   "soon",
+   "30",
+   5
+  ],
+  "expected": "ERR:start time must be a time written like 09:30, from 00:00 to 23:59"
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "12:00",
+   "45, 60, 40",
+   5
+  ],
+  "expected": "Window 09:00 to 12:00 is 180 minutes. Items and gaps need 155. Spare: 25."
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "10:00",
+   "30, 30",
+   0
+  ],
+  "expected": "Window 09:00 to 10:00 is 60 minutes. Items and gaps need 60. Spare: 0."
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "10:00",
+   "30, 30",
+   5
+  ],
+  "expected": "Window 09:00 to 10:00 is 60 minutes. Items and gaps need 65. Short: 5."
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "09:01",
+   "1",
+   0
+  ],
+  "expected": "Window 09:00 to 09:01 is 1 minute. Items and gaps need 1. Spare: 0."
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "09:00",
+   "30",
+   5
+  ],
+  "expected": "ERR:end time must be after start time"
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "10:00",
+   "09:00",
+   "30",
+   5
+  ],
+  "expected": "ERR:end time must be after start time"
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "12:00",
+   "45, 60, 40",
+   200
+  ],
+  "expected": "ERR:gap must be a whole number of minutes from 0 to 120"
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "noon",
+   "30",
+   5
+  ],
+  "expected": "ERR:end time must be a time written like 09:30, from 00:00 to 23:59"
+ },
+ {
+  "fn": "fitTruth",
+  "args": [
+   "09:00",
+   "23:59",
+   "1440",
+   0
+  ],
+  "expected": "Window 09:00 to 23:59 is 899 minutes. Items and gaps need 1440. Short: 541."
+ }
+]
